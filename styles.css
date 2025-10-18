@@ -2095,6 +2095,10 @@ body.keyboard-navigation *:focus {
         padding: 5rem 0 3rem;
     }
 
+    .hero-subtitle {
+        text-align: center;
+    }
+
     .hero-cta {
         flex-direction: column;
         align-items: center;
@@ -2120,6 +2124,20 @@ body.keyboard-navigation *:focus {
 
     .education-grid {
         grid-template-columns: 1fr;
+    }
+
+    .education-card {
+        text-align: center;
+    }
+
+    .education-card h3,
+    .education-card p {
+        text-align: center;
+    }
+
+    .education-icon {
+        text-align: center;
+        display: block;
     }
 
     .certifications-grid {
