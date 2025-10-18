@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="50" fill="#0a0a0f"/>
+
+  <!-- Outer partial arc (top-right quadrant) - mimics the rotating border -->
+  <path d="M 50 5 A 45 45 0 0 1 95 50"
+        fill="none"
+        stroke="#06b6d4"
+        stroke-width="3"
+        stroke-linecap="round"
+        opacity="0.8"/>
+
+  <!-- Inner circle ring -->
+  <circle cx="50" cy="50" r="42"
+          fill="none"
+          stroke="#22d3ee"
+          stroke-width="1.5"
+          opacity="0.4"/>
+
+  <!-- MF Text -->
+  <text x="50" y="50"
+        font-family="'Space Grotesk', 'DM Sans', sans-serif"
+        font-size="36"
+        font-weight="700"
+        fill="url(#gradient)"
+        text-anchor="middle"
+        dominant-baseline="central">MF</text>
+</svg>

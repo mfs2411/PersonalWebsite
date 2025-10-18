@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:www.zaheensandhu.com)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(python3 -m http.server 8000)",
+      "Bash(python3 -m http.server 8080)"
     ],
     "deny": [],
     "ask": []
