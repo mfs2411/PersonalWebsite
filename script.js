@@ -1,194 +1,36 @@
 // ===========================
-// Mobile Navigation Toggle
+// PREMIUM WEBSITE WITH APPLE-LIKE MOTION
+// Built with GSAP, ScrollTrigger, and Lenis
 // ===========================
 
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.getElementById('navMenu');
-const navLinks = document.querySelectorAll('.nav-link');
+// Check for reduced motion preference
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Toggle mobile menu
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    navToggle.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        navToggle.classList.remove('active');
-    });
-});
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove('active');
-        navToggle.classList.remove('active');
+// Developer Console Panel
+const devPanel = {
+    initialized: [],
+    reducedMotion: prefersReducedMotion,
+    log(feature) {
+        this.initialized.push(feature);
+    },
+    display() {
+        console.log('%c✨ Premium Website Initialized', 'font-size: 18px; font-weight: bold; color: #06b6d4;');
+        console.log('%cInitialized Features:', 'font-size: 14px; font-weight: bold; color: #14b8a6;');
+        this.initialized.forEach(feature => console.log(`  ✓ ${feature}`));
+        console.log(`\n%cReduced Motion: ${this.reducedMotion ? '✓ Enabled' : '✗ Disabled'}`,
+            `font-size: 12px; color: ${this.reducedMotion ? '#22c55e' : '#64748b'};`);
     }
-});
-
-// ===========================
-// Smooth Scrolling for Links
-// ===========================
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-
-        if (target) {
-            const offsetTop = target.offsetTop - 80; // Account for fixed navbar
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// ===========================
-// Navbar Background on Scroll
-// ===========================
-
-const navbar = document.querySelector('.navbar');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    // Add shadow when scrolled
-    if (currentScroll > 50) {
-        navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
-    }
-
-    lastScroll = currentScroll;
-});
-
-// ===========================
-// Active Navigation Link
-// ===========================
-
-const sections = document.querySelectorAll('section[id]');
-
-function highlightNavigation() {
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            navLink?.classList.add('active');
-        } else {
-            navLink?.classList.remove('active');
-        }
-    });
-}
-
-window.addEventListener('scroll', highlightNavigation);
-
-// ===========================
-// Intersection Observer for Animations
-// ===========================
-
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe timeline items
-document.querySelectorAll('.timeline-item').forEach((item, index) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(30px)';
-    item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-    observer.observe(item);
-});
-
-// Observe education cards
-document.querySelectorAll('.education-card').forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`;
-    observer.observe(card);
-});
-
-// Observe certification cards
-document.querySelectorAll('.cert-card').forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
-    observer.observe(card);
-});
-
-// Observe highlight cards
-document.querySelectorAll('.highlight-card').forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`;
-    observer.observe(card);
-});
-
-// Observe leadership items
-document.querySelectorAll('.leadership-item').forEach((item, index) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateX(-30px)';
-    item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-    observer.observe(item);
-});
-
 // ===========================
-// Hide Scroll Indicator on Scroll
+// UTILITY FUNCTIONS
 // ===========================
 
-const scrollIndicator = document.querySelector('.scroll-indicator');
-
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 200) {
-        scrollIndicator.style.opacity = '0';
-        scrollIndicator.style.visibility = 'hidden';
-    } else {
-        scrollIndicator.style.opacity = '1';
-        scrollIndicator.style.visibility = 'visible';
-    }
-});
-
-// ===========================
-// Add Smooth Reveal on Page Load
-// ===========================
-
-window.addEventListener('DOMContentLoaded', () => {
-    // Ensure body is visible
-    document.body.style.opacity = '1';
-
-    // Add revealed class to all sections immediately for fallback
-    document.querySelectorAll('section').forEach(section => {
-        section.classList.add('section-revealed');
-    });
-});
-
-// ===========================
-// Performance: Debounce Scroll Events
-// ===========================
-
+// Debounce function for performance
 function debounce(func, wait = 10, immediate = true) {
     let timeout;
-    return function() {
+    return function executedFunction(...args) {
         const context = this;
-        const args = arguments;
         const later = function() {
             timeout = null;
             if (!immediate) func.apply(context, args);
@@ -200,639 +42,700 @@ function debounce(func, wait = 10, immediate = true) {
     };
 }
 
-// Apply debounce to scroll events
-const debouncedHighlight = debounce(highlightNavigation);
-window.addEventListener('scroll', debouncedHighlight);
+// Throttle function for mousemove events
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
 
 // ===========================
-// Keyboard Navigation Accessibility
+// 1. LENIS SMOOTH SCROLL
 // ===========================
 
-// Add focus styles for keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-navigation');
+function initLenis() {
+    if (prefersReducedMotion) {
+        devPanel.log('Lenis (skipped - reduced motion)');
+        enableNativeSmooth();
+        return null;
     }
-});
 
-document.addEventListener('mousedown', () => {
-    document.body.classList.remove('keyboard-navigation');
-});
+    // Check if Lenis is available
+    if (typeof Lenis === 'undefined') {
+        console.warn('Lenis not loaded, using native smooth scroll');
+        devPanel.log('Lenis (fallback to native)');
+        enableNativeSmooth();
+        return null;
+    }
 
-// ===========================
-// Animated Particles Background
-// ===========================
+    try {
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+            smoothTouch: false,
+            touchMultiplier: 2
+        });
 
-function createParticles() {
-    const hero = document.querySelector('.hero');
-    const particlesContainer = document.createElement('div');
-    particlesContainer.className = 'particles';
-    hero.appendChild(particlesContainer);
+        // Integrate with GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
 
-    const particleCount = 50;
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
 
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
+        gsap.ticker.lagSmoothing(0);
 
-        // Random positioning
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
+        // Handle anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, {
+                        offset: -80,
+                        duration: 1.5
+                    });
+                }
+            });
+        });
 
-        // Random size
-        const size = Math.random() * 3 + 1;
-        particle.style.width = size + 'px';
-        particle.style.height = size + 'px';
-
-        // Random animation delay
-        particle.style.animationDelay = Math.random() * 20 + 's';
-        particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-
-        particlesContainer.appendChild(particle);
+        devPanel.log('Lenis Smooth Scroll');
+        return lenis;
+    } catch (error) {
+        console.error('Lenis initialization failed:', error);
+        devPanel.log('Lenis (error - using native)');
+        enableNativeSmooth();
+        return null;
     }
 }
 
-// Create particles on load
-window.addEventListener('load', createParticles);
+function enableNativeSmooth() {
+    // Fallback to native smooth scrolling
+    document.documentElement.style.scrollBehavior = 'smooth';
 
-// ===========================
-// Mouse Move Parallax Effect
-// ===========================
-
-let mouseX = 0;
-let mouseY = 0;
-
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX / window.innerWidth - 0.5;
-    mouseY = e.clientY / window.innerHeight - 0.5;
-});
-
-function animateParallax() {
-    const hero = document.querySelector('.hero');
-    if (hero && window.pageYOffset < window.innerHeight) {
-        const moveX = mouseX * 20;
-        const moveY = mouseY * 20;
-
-        hero.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    }
-
-    requestAnimationFrame(animateParallax);
-}
-
-animateParallax();
-
-// ===========================
-// ULTRA DYNAMIC Cursor System
-// ===========================
-
-const coords = { x: 0, y: 0, prevX: 0, prevY: 0 };
-let currentSection = 'hero';
-let velocity = 0;
-let hue = 180; // Start with cyan
-
-if (window.innerWidth > 768) {
-    // Hide default cursor
-    document.body.style.cursor = 'none';
-    document.querySelectorAll('a, button, .btn').forEach(el => {
-        el.style.cursor = 'none';
-    });
-
-    // Create main cursor with inner dot
-    const mainCursor = document.createElement('div');
-    mainCursor.className = 'main-cursor';
-    const cursorDot = document.createElement('div');
-    cursorDot.className = 'cursor-dot';
-    mainCursor.appendChild(cursorDot);
-    document.body.appendChild(mainCursor);
-
-    // Create visible pointer cursor
-    const cursorPointer = document.createElement('div');
-    cursorPointer.className = 'cursor-pointer';
-    cursorPointer.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z"
-                  fill="url(#cursorGradient)"
-                  stroke="rgba(6, 182, 212, 0.8)"
-                  stroke-width="1.5"/>
-            <defs>
-                <linearGradient id="cursorGradient" x1="3" y1="3" x2="19.97" y2="19.97">
-                    <stop offset="0%" stop-color="#06b6d4"/>
-                    <stop offset="100%" stop-color="#2dd4bf"/>
-                </linearGradient>
-            </defs>
-        </svg>
-    `;
-    document.body.appendChild(cursorPointer);
-
-    // Create cursor text label
-    const cursorText = document.createElement('div');
-    cursorText.className = 'cursor-text';
-    document.body.appendChild(cursorText);
-
-    // Create more cursor circles for better trail (15 circles!)
-    for (let i = 0; i < 15; i++) {
-        const circle = document.createElement('div');
-        circle.className = 'cursor-circle';
-        circle.style.setProperty('--index', i);
-        document.body.appendChild(circle);
-    }
-
-    // Create MORE sparkles (12 sparkles!)
-    for (let i = 0; i < 12; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'cursor-sparkle';
-        sparkle.style.animationDelay = i * 0.08 + 's';
-        document.body.appendChild(sparkle);
-    }
-
-    // Create particle trail
-    for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'cursor-particle';
-        document.body.appendChild(particle);
-    }
-
-    // Create constellation points (for connecting lines)
-    const constellationPoints = [];
-    for (let i = 0; i < 30; i++) {
-        const point = {
-            x: 0,
-            y: 0,
-            life: 0
-        };
-        constellationPoints.push(point);
-    }
-
-    // Create canvas for artistic effects
-    const canvas = document.createElement('canvas');
-    canvas.className = 'cursor-canvas';
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-
-    // Resize canvas on window resize
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-
-    // Create aurora glow
-    const auroraGlow = document.createElement('div');
-    auroraGlow.className = 'aurora-glow';
-    document.body.appendChild(auroraGlow);
-
-    // Create geometric shapes
-    for (let i = 0; i < 5; i++) {
-        const shape = document.createElement('div');
-        shape.className = 'geometric-shape';
-        shape.style.setProperty('--delay', i * 0.2 + 's');
-        document.body.appendChild(shape);
-    }
-
-    const geometricShapes = document.querySelectorAll('.geometric-shape');
-
-    const cursorCircles = document.querySelectorAll(".cursor-circle");
-    const cursorSparkles = document.querySelectorAll(".cursor-sparkle");
-    const cursorParticles = document.querySelectorAll(".cursor-particle");
-
-    cursorCircles.forEach(function (circle, index) {
-        circle.x = 0;
-        circle.y = 0;
-    });
-
-    let isHovering = false;
-    let isClicking = false;
-    let hoverType = '';
-
-    // Detect which section we're in
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                currentSection = entry.target.id || 'default';
-                mainCursor.setAttribute('data-section', currentSection);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    document.querySelectorAll('section').forEach(section => {
-        sectionObserver.observe(section);
-    });
-
-    window.addEventListener("mousemove", function (e) {
-        // Calculate velocity for color changes
-        const dx = e.clientX - coords.prevX;
-        const dy = e.clientY - coords.prevY;
-        velocity = Math.sqrt(dx * dx + dy * dy);
-
-        coords.prevX = coords.x;
-        coords.prevY = coords.y;
-        coords.x = e.clientX;
-        coords.y = e.clientY;
-
-        // Update hue based on velocity (faster = more colorful)
-        hue = 180 + (velocity * 2);
-        if (hue > 360) hue -= 360;
-
-        mainCursor.style.left = e.clientX + 'px';
-        mainCursor.style.top = e.clientY + 'px';
-        mainCursor.style.borderColor = `hsl(${hue}, 70%, 60%)`;
-
-        cursorPointer.style.left = e.clientX + 'px';
-        cursorPointer.style.top = e.clientY + 'px';
-        cursorPointer.style.transform = 'translate(0, 0)';
-        cursorPointer.style.filter = `drop-shadow(0 0 8px hsl(${hue}, 80%, 60%))`;
-
-        cursorText.style.left = e.clientX + 40 + 'px';
-        cursorText.style.top = e.clientY + 40 + 'px';
-
-        // Update aurora glow position
-        auroraGlow.style.left = e.clientX + 'px';
-        auroraGlow.style.top = e.clientY + 'px';
-        auroraGlow.style.background = `radial-gradient(circle,
-            hsla(${hue}, 70%, 60%, 0.3) 0%,
-            hsla(${hue + 30}, 70%, 60%, 0.2) 30%,
-            transparent 70%)`;
-
-        // Update geometric shapes
-        geometricShapes.forEach((shape, index) => {
-            const delay = index * 50;
-            setTimeout(() => {
-                shape.style.left = e.clientX + 'px';
-                shape.style.top = e.clientY + 'px';
-                shape.style.borderColor = `hsl(${hue + index * 30}, 70%, 60%)`;
-            }, delay);
-        });
-
-        // Add constellation points
-        if (Math.random() > 0.7) {
-            const availablePoint = constellationPoints.find(p => p.life <= 0);
-            if (availablePoint) {
-                availablePoint.x = e.clientX;
-                availablePoint.y = e.clientY;
-                availablePoint.life = 60; // Frames to live
-            }
-        }
-
-        // Update sparkles with more dynamic positioning
-        cursorSparkles.forEach((sparkle, index) => {
-            setTimeout(() => {
-                const offsetX = Math.sin(index * 0.5) * 10;
-                const offsetY = Math.cos(index * 0.5) * 10;
-                sparkle.style.left = e.clientX + offsetX + 'px';
-                sparkle.style.top = e.clientY + offsetY + 'px';
-            }, index * 20);
-        });
-
-        // Update particles randomly
-        cursorParticles.forEach((particle, index) => {
-            if (Math.random() > 0.95) {
-                particle.style.left = e.clientX + 'px';
-                particle.style.top = e.clientY + 'px';
-                particle.style.opacity = '1';
-                setTimeout(() => {
-                    particle.style.opacity = '0';
-                }, 500);
-            }
-        });
-
-        // Check what we're hovering over
-        const target = e.target;
-
-        // Buttons and CTAs
-        if (target.closest('.btn, .contact-button')) {
-            isHovering = true;
-            hoverType = 'button';
-            mainCursor.classList.add('hovering', 'button');
-            mainCursor.classList.remove('link', 'card');
-            cursorPointer.style.transform = 'translate(0, 0) scale(1.3) rotate(12deg)';
-            const btnText = target.textContent.trim();
-            cursorText.textContent = '→ ' + btnText;
-            cursorText.style.opacity = '1';
-        }
-        // Navigation links
-        else if (target.closest('.nav-link')) {
-            isHovering = true;
-            hoverType = 'link';
-            mainCursor.classList.add('hovering', 'link');
-            mainCursor.classList.remove('button', 'card');
-            cursorPointer.style.transform = 'translate(0, 0) scale(1.2) rotate(-12deg)';
-            cursorText.textContent = '↗ Navigate';
-            cursorText.style.opacity = '1';
-        }
-        // Cards
-        else if (target.closest('.highlight-card, .cert-card, .education-card, .timeline-content, .network-badge, .language-badge, .leadership-item')) {
-            isHovering = true;
-            hoverType = 'card';
-            mainCursor.classList.add('hovering', 'card');
-            mainCursor.classList.remove('button', 'link');
-            cursorPointer.style.transform = 'translate(0, 0) scale(1.1)';
-            cursorText.textContent = '✨ Explore';
-            cursorText.style.opacity = '1';
-        }
-        // Email/LinkedIn
-        else if (target.closest('a[href^="mailto"], a[href*="linkedin"]')) {
-            isHovering = true;
-            hoverType = 'contact';
-            mainCursor.classList.add('hovering', 'button');
-            mainCursor.classList.remove('link', 'card');
-            cursorPointer.style.transform = 'translate(0, 0) scale(1.3) rotate(8deg)';
-            cursorText.textContent = '📧 Connect';
-            cursorText.style.opacity = '1';
-        }
-        // MF Logo
-        else if (target.closest('.nav-brand')) {
-            isHovering = true;
-            mainCursor.classList.add('hovering');
-            cursorPointer.style.transform = 'translate(0, 0) scale(1.4) rotate(15deg)';
-            cursorText.textContent = '🏠 Home';
-            cursorText.style.opacity = '1';
-        }
-        else {
-            isHovering = false;
-            hoverType = '';
-            mainCursor.classList.remove('hovering', 'button', 'link', 'card');
-            cursorPointer.style.transform = 'translate(0, 0) scale(1)';
-            cursorText.style.opacity = '0';
-        }
-    });
-
-    // Click effects - ENHANCED
-    document.addEventListener('mousedown', () => {
-        isClicking = true;
-        mainCursor.classList.add('clicking');
-
-        // Create burst particles with rainbow colors
-        for (let i = 0; i < 12; i++) {
-            const burst = document.createElement('div');
-            burst.className = 'cursor-burst';
-            burst.style.left = coords.x + 'px';
-            burst.style.top = coords.y + 'px';
-            const angle = (i / 12) * Math.PI * 2;
-            burst.style.setProperty('--angle', angle + 'rad');
-            const burstHue = (hue + i * 30) % 360;
-            burst.style.background = `hsl(${burstHue}, 70%, 60%)`;
-            burst.style.boxShadow = `0 0 15px hsl(${burstHue}, 70%, 60%)`;
-            document.body.appendChild(burst);
-
-            setTimeout(() => burst.remove(), 1000);
-        }
-
-        // Create velocity ring
-        if (velocity > 5) {
-            const ring = document.createElement('div');
-            ring.className = 'velocity-ring';
-            ring.style.left = coords.x + 'px';
-            ring.style.top = coords.y + 'px';
-            ring.style.borderColor = `hsl(${hue}, 70%, 60%)`;
-            document.body.appendChild(ring);
-
-            setTimeout(() => ring.remove(), 800);
-        }
-
-        // Create paint blobs for artistic trail
-        for (let i = 0; i < 3; i++) {
-            setTimeout(() => {
-                const blob = document.createElement('div');
-                blob.className = 'paint-blob';
-                blob.style.left = coords.x + (Math.random() - 0.5) * 30 + 'px';
-                blob.style.top = coords.y + (Math.random() - 0.5) * 30 + 'px';
-                blob.style.background = `radial-gradient(circle, hsl(${hue}, 70%, 60%), transparent)`;
-                document.body.appendChild(blob);
-
-                setTimeout(() => blob.remove(), 2000);
-            }, i * 100);
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        isClicking = false;
-        mainCursor.classList.remove('clicking');
-    });
-
-    function animateCursor() {
-        let x = coords.x;
-        let y = coords.y;
-
-        // Update cursor circles with velocity-based colors
-        cursorCircles.forEach(function (circle, index) {
-            circle.style.left = x - 12 + "px";
-            circle.style.top = y - 12 + "px";
-
-            const scale = (cursorCircles.length - index) / cursorCircles.length;
-            circle.style.scale = scale;
-
-            const circleHue = (hue - index * 10 + 360) % 360;
-            circle.style.background = `radial-gradient(circle,
-                hsla(${circleHue}, 70%, 60%, ${0.6 * scale}) 0%,
-                transparent 70%)`;
-            circle.style.boxShadow = `0 0 20px hsla(${circleHue}, 70%, 60%, 0.4)`;
-
-            // Add rotation for more dynamic effect
-            circle.style.transform = `scale(${scale}) rotate(${index * 15}deg)`;
-
-            circle.x = x;
-            circle.y = y;
-
-            const nextCircle = cursorCircles[index + 1] || cursorCircles[0];
-            const speed = isHovering ? 0.15 : 0.25;
-            x += (nextCircle.x - x) * speed;
-            y += (nextCircle.y - y) * speed;
-        });
-
-        // Clear and draw constellation lines
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Update and draw constellation points
-        constellationPoints.forEach((point, i) => {
-            if (point.life > 0) {
-                point.life--;
-                const alpha = point.life / 60;
-
-                // Draw point
-                ctx.beginPath();
-                ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${hue}, 70%, 60%, ${alpha})`;
-                ctx.fill();
-
-                // Draw lines to nearby points
-                constellationPoints.forEach((otherPoint, j) => {
-                    if (i !== j && otherPoint.life > 0) {
-                        const distance = Math.sqrt(
-                            Math.pow(point.x - otherPoint.x, 2) +
-                            Math.pow(point.y - otherPoint.y, 2)
-                        );
-
-                        if (distance < 150) {
-                            ctx.beginPath();
-                            ctx.moveTo(point.x, point.y);
-                            ctx.lineTo(otherPoint.x, otherPoint.y);
-                            const lineAlpha = (1 - distance / 150) * alpha * 0.3;
-                            ctx.strokeStyle = `hsla(${hue}, 70%, 60%, ${lineAlpha})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                        }
-                    }
+    // Handle anchor links with native smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const offsetTop = target.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
                 });
             }
         });
+    });
+}
+
+// ===========================
+// 2. GSAP SCROLL TRIGGERS
+// ===========================
+
+function initScrollTriggers() {
+    const featureSection = document.querySelector('.features-chapter');
+    const featureSteps = document.querySelectorAll('.feature-step');
+    const visualContainers = document.querySelectorAll('.visual-container');
+
+    if (!featureSection || featureSteps.length === 0) {
+        console.warn('Features section not found');
+        return;
+    }
+
+    // Always activate first feature
+    activateFeature(0);
+
+    if (prefersReducedMotion) {
+        devPanel.log('ScrollTrigger (skipped - reduced motion)');
+        return;
+    }
+
+    // Check if GSAP is available
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        console.warn('GSAP not loaded, using scroll fallback');
+        devPanel.log('ScrollTrigger (fallback to scroll)');
+        initScrollFallback();
+        return;
+    }
+
+    try {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const shouldPin = window.innerWidth > 768 && window.innerHeight > 600;
+
+        if (shouldPin) {
+            console.log('Initializing pinned features...');
+
+            // Simple pin
+            ScrollTrigger.create({
+                trigger: featureSection,
+                start: 'top top',
+                end: '+=300%',
+                pin: true,
+                pinSpacing: true,
+                markers: false, // Set to true to debug
+                onUpdate: (self) => {
+                    // Calculate which feature should be active based on progress
+                    const progress = self.progress;
+                    const stepCount = featureSteps.length;
+                    const activeIndex = Math.min(
+                        Math.floor(progress * stepCount),
+                        stepCount - 1
+                    );
+                    activateFeature(activeIndex);
+                }
+            });
+
+            devPanel.log('GSAP ScrollTrigger (Pinned Features)');
+        } else {
+            // Mobile/small screens: use IntersectionObserver
+            initScrollFallback();
+            devPanel.log('ScrollTrigger (mobile - scroll observer)');
+        }
+
+        // Fade in section titles
+        if (gsap.utils && gsap.utils.toArray) {
+            gsap.utils.toArray('.section-title').forEach(title => {
+                gsap.fromTo(title,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: title,
+                            start: 'top 80%',
+                            end: 'top 60%',
+                            scrub: 1
+                        }
+                    }
+                );
+            });
+        }
+
+    } catch (error) {
+        console.error('ScrollTrigger error:', error);
+        devPanel.log('ScrollTrigger (error - using fallback)');
+        initScrollFallback();
+    }
+}
+
+// Fallback scroll-based feature switching
+function initScrollFallback() {
+    const featureSection = document.querySelector('.features-chapter');
+    const featureSteps = document.querySelectorAll('.feature-step');
+
+    if (!featureSection || featureSteps.length === 0) return;
+
+    window.addEventListener('scroll', throttle(() => {
+        const rect = featureSection.getBoundingClientRect();
+        const sectionTop = rect.top;
+        const sectionHeight = rect.height;
+        const windowHeight = window.innerHeight;
+
+        // Check if section is in view
+        if (sectionTop < windowHeight && sectionTop + sectionHeight > 0) {
+            // Calculate progress through section
+            const progress = Math.max(0, Math.min(1, -sectionTop / (sectionHeight - windowHeight)));
+            const activeIndex = Math.min(
+                Math.floor(progress * featureSteps.length),
+                featureSteps.length - 1
+            );
+            activateFeature(activeIndex);
+        }
+    }, 50));
+}
+
+// Helper function to activate a feature step
+function activateFeature(index) {
+    const featureSteps = document.querySelectorAll('.feature-step');
+    const visualContainers = document.querySelectorAll('.visual-container');
+
+    // Remove all active classes
+    featureSteps.forEach(s => s.classList.remove('active'));
+    visualContainers.forEach(v => v.classList.remove('active'));
+
+    // Add active to current
+    if (featureSteps[index]) {
+        featureSteps[index].classList.add('active');
+    }
+    if (visualContainers[index]) {
+        visualContainers[index].classList.add('active');
+    }
+}
+
+// ===========================
+// 3. PARALLAX EFFECTS
+// ===========================
+
+function initParallax() {
+    if (prefersReducedMotion) {
+        devPanel.log('Parallax (skipped - reduced motion)');
+        return;
+    }
+
+    const parallaxBg = document.querySelector('.parallax-bg');
+    const parallaxFg = document.querySelector('.parallax-fg');
+
+    if (parallaxBg) {
+        gsap.to(parallaxBg, {
+            y: '30%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+    }
+
+    if (parallaxFg) {
+        gsap.to(parallaxFg, {
+            y: '15%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+    }
+
+    devPanel.log('GSAP Parallax (Hero Background & Foreground)');
+}
+
+// ===========================
+// 4. REVEAL ON SCROLL
+// ===========================
+
+function initReveal() {
+    const revealElements = document.querySelectorAll('.reveal');
+
+    if (revealElements.length === 0) return;
+
+    if (prefersReducedMotion) {
+        // Just show all elements without animation
+        revealElements.forEach(el => el.classList.add('revealed'));
+        devPanel.log('Reveal (instant - reduced motion)');
+        return;
+    }
+
+    // Use IntersectionObserver for performance
+    const revealObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    // Optional: unobserve after revealing
+                    // revealObserver.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        }
+    );
+
+    revealElements.forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    devPanel.log('IntersectionObserver Reveal Animations');
+}
+
+// ===========================
+// 5. 3D TILT ON HOVER
+// ===========================
+
+function initTilt() {
+    const tiltElements = document.querySelectorAll('.card-tilt');
+
+    if (tiltElements.length === 0) return;
+
+    if (prefersReducedMotion) {
+        devPanel.log('3D Tilt (skipped - reduced motion)');
+        return;
+    }
+
+    tiltElements.forEach(card => {
+        card.addEventListener('mousemove', throttle(function(e) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Clamp tilt to ±12 degrees
+            const rotateX = Math.max(-12, Math.min(12, (y - centerY) / 10));
+            const rotateY = Math.max(-12, Math.min(12, (centerX - x) / 10));
+
+            // Add will-change for smooth animation
+            card.style.willChange = 'transform';
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        }, 16)); // ~60fps
+
+        card.addEventListener('mouseleave', function() {
+            // Ease back to neutral with transition
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+
+            // Remove will-change after animation
+            setTimeout(() => {
+                card.style.willChange = 'auto';
+            }, 300);
+        });
+    });
+
+    devPanel.log('3D Tilt Effect (Clamped ±12°)');
+}
+
+// ===========================
+// 6. MAGNETIC BUTTONS
+// ===========================
+
+function initMagnetic() {
+    const magneticElements = document.querySelectorAll('.btn-magnet');
+
+    if (magneticElements.length === 0) return;
+
+    if (prefersReducedMotion) {
+        devPanel.log('Magnetic Buttons (skipped - reduced motion)');
+        return;
+    }
+
+    magneticElements.forEach(btn => {
+        btn.addEventListener('mousemove', throttle(function(e) {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            // Magnetic radius: 14px
+            const distance = Math.sqrt(x * x + y * y);
+            const maxDistance = 14;
+
+            if (distance < maxDistance * 3) {
+                const power = Math.max(0, 1 - distance / (maxDistance * 3));
+                const moveX = x * power * 0.4;
+                const moveY = y * power * 0.4;
+
+                btn.style.willChange = 'transform';
+                btn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            }
+        }, 16));
+
+        btn.addEventListener('mouseleave', function() {
+            btn.style.transform = 'translate(0, 0)';
+            setTimeout(() => {
+                btn.style.willChange = 'auto';
+            }, 300);
+        });
+    });
+
+    devPanel.log('Magnetic Buttons (14px radius)');
+}
+
+// ===========================
+// 7. CUSTOM CURSOR
+// ===========================
+
+function initCursor() {
+    // Skip on mobile or if reduced motion
+    if (window.innerWidth <= 768 || prefersReducedMotion) {
+        devPanel.log('Custom Cursor (skipped - mobile/reduced motion)');
+        return;
+    }
+
+    const cursor = document.getElementById('cursor');
+    if (!cursor) return;
+
+    // Hide default cursor on desktop
+    document.body.style.cursor = 'none';
+    document.querySelectorAll('a, button, .btn, .card-tilt').forEach(el => {
+        el.style.cursor = 'none';
+    });
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+
+    // Update mouse position
+    document.addEventListener('mousemove', throttle((e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    }, 16));
+
+    // Animate cursor with easing
+    function animateCursor() {
+        const ease = 0.15;
+        cursorX += (mouseX - cursorX) * ease;
+        cursorY += (mouseY - cursorY) * ease;
+
+        cursor.style.left = `${cursorX}px`;
+        cursor.style.top = `${cursorY}px`;
 
         requestAnimationFrame(animateCursor);
     }
-
     animateCursor();
+
+    // Hover effects
+    const hoverTargets = document.querySelectorAll('.btn, .link, .card-tilt, .contact-button');
+    hoverTargets.forEach(target => {
+        target.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+        });
+        target.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+        });
+    });
+
+    devPanel.log('Custom Cursor (RAF easing)');
 }
 
 // ===========================
-// Typing Effect for Hero Subtitle
+// 8. ACCESSIBLE MOBILE NAVIGATION
 // ===========================
 
-const subtitle = document.querySelector('.hero-subtitle');
-const originalText = subtitle.textContent;
-subtitle.textContent = '';
+function initNav() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
 
-let i = 0;
-function typeWriter() {
-    if (i < originalText.length) {
-        subtitle.textContent += originalText.charAt(i);
-        i++;
-        setTimeout(typeWriter, 50);
+    if (!navToggle || !navMenu) return;
+
+    let isMenuOpen = false;
+
+    // Toggle menu
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+        navToggle.setAttribute('aria-expanded', isMenuOpen);
+
+        // Lock body scroll when menu is open on mobile
+        if (isMenuOpen && window.innerWidth <= 768) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        // Focus trap: focus first link when opening
+        if (isMenuOpen) {
+            setTimeout(() => {
+                if (navLinks[0]) navLinks[0].focus();
+            }, 100);
+        }
     }
-}
 
-setTimeout(typeWriter, 500);
-
-// ===========================
-// Magnetic Button Effect
-// ===========================
-
-const magneticElements = document.querySelectorAll('.btn, .contact-button, .nav-link');
-
-magneticElements.forEach(el => {
-    el.addEventListener('mousemove', function(e) {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-    });
-
-    el.addEventListener('mouseleave', function() {
-        el.style.transform = 'translate(0, 0)';
-    });
-});
-
-// ===========================
-// 3D Tilt Effect on Cards
-// ===========================
-
-const tiltElements = document.querySelectorAll('.highlight-card, .cert-card, .education-card, .timeline-content, .network-badge, .language-badge');
-
-tiltElements.forEach(card => {
-    card.addEventListener('mousemove', function(e) {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-    });
-
-    card.addEventListener('mouseleave', function() {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-    });
-});
-
-// ===========================
-// Interactive Text Highlighting
-// ===========================
-
-const textElements = document.querySelectorAll('p, li, h3, h4');
-
-textElements.forEach(el => {
-    el.addEventListener('mouseenter', function() {
-        this.style.color = 'var(--primary-color)';
-        this.style.transition = 'color 0.3s ease';
-    });
-
-    el.addEventListener('mouseleave', function() {
-        this.style.color = '';
-    });
-});
-
-// ===========================
-// Ripple Effect on Click
-// ===========================
-
-document.addEventListener('click', function(e) {
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple-effect';
-    ripple.style.left = e.clientX + 'px';
-    ripple.style.top = e.clientY + 'px';
-    document.body.appendChild(ripple);
-
-    setTimeout(() => {
-        ripple.remove();
-    }, 1000);
-});
-
-// ===========================
-// Scroll Progress Bar
-// ===========================
-
-const progressBar = document.createElement('div');
-progressBar.className = 'scroll-progress';
-document.body.appendChild(progressBar);
-
-window.addEventListener('scroll', () => {
-    const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrolled = (window.pageYOffset / windowHeight) * 100;
-    progressBar.style.width = scrolled + '%';
-});
-
-// ===========================
-// Floating Action Button
-// ===========================
-
-const fab = document.createElement('a');
-fab.href = '#home';
-fab.className = 'floating-action-button';
-fab.innerHTML = '↑';
-document.body.appendChild(fab);
-
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 500) {
-        fab.classList.add('visible');
-    } else {
-        fab.classList.remove('visible');
+    function closeMenu() {
+        if (isMenuOpen) {
+            toggleMenu();
+        }
     }
-});
 
-// ===========================
-// Interactive Section Reveal
-// ===========================
+    // Toggle on button click
+    navToggle.addEventListener('click', toggleMenu);
 
-const sections = document.querySelectorAll('section');
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('section-revealed');
+    // Close menu when clicking on a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (isMenuOpen && !navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+            closeMenu();
         }
     });
-}, { threshold: 0.1 });
 
-sections.forEach(section => {
-    revealObserver.observe(section);
-});
+    // Close menu with ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isMenuOpen) {
+            closeMenu();
+            navToggle.focus(); // Return focus to toggle button
+        }
+    });
+
+    // Focus trap within menu when open
+    if (navLinks.length > 0) {
+        const firstLink = navLinks[0];
+        const lastLink = navLinks[navLinks.length - 1];
+
+        lastLink.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && !e.shiftKey && isMenuOpen) {
+                e.preventDefault();
+                firstLink.focus();
+            }
+        });
+
+        firstLink.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && e.shiftKey && isMenuOpen) {
+                e.preventDefault();
+                lastLink.focus();
+            }
+        });
+    }
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', debounce(() => {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll > 50) {
+            navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.3)';
+        } else {
+            navbar.style.boxShadow = '';
+        }
+
+        lastScroll = currentScroll;
+    }, 10));
+
+    devPanel.log('Accessible Mobile Nav (Focus Trap, ESC, ARIA)');
+}
 
 // ===========================
-// Console Message
+// 9. KEYBOARD NAVIGATION
 // ===========================
 
-console.log('%c👋 Welcome to Miriam Fahim\'s Portfolio!', 'font-size: 20px; font-weight: bold; color: #06b6d4;');
-console.log('%cInterested in the code? Feel free to reach out!', 'font-size: 14px; color: #14b8a6;');
+function initKeyboardNav() {
+    // Add class for keyboard navigation focus styles
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+            document.body.classList.add('keyboard-navigation');
+        }
+    });
+
+    document.addEventListener('mousedown', () => {
+        document.body.classList.remove('keyboard-navigation');
+    });
+
+    devPanel.log('Keyboard Navigation Focus Styles');
+}
+
+// ===========================
+// 10. ADDITIONAL POLISH
+// ===========================
+
+function initPolish() {
+    // Hide scroll indicator after scrolling
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        window.addEventListener('scroll', debounce(() => {
+            if (window.pageYOffset > 200) {
+                scrollIndicator.style.opacity = '0';
+                scrollIndicator.style.visibility = 'hidden';
+            } else {
+                scrollIndicator.style.opacity = '1';
+                scrollIndicator.style.visibility = 'visible';
+            }
+        }, 10));
+    }
+
+    // Intersection Observer for timeline and cards (preserve existing animations)
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe timeline items
+    document.querySelectorAll('.timeline-item').forEach((item, index) => {
+        if (!prefersReducedMotion) {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        }
+        fadeObserver.observe(item);
+    });
+
+    // Observe certification cards
+    document.querySelectorAll('.cert-card').forEach((card, index) => {
+        if (!prefersReducedMotion) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
+        }
+        fadeObserver.observe(card);
+    });
+
+    // Observe education cards
+    document.querySelectorAll('.education-card').forEach((card, index) => {
+        if (!prefersReducedMotion) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`;
+        }
+        fadeObserver.observe(card);
+    });
+
+    devPanel.log('Additional Polish (Scroll Indicator, Card Animations)');
+}
+
+// ===========================
+// INIT ALL
+// ===========================
+
+function initAll() {
+    console.log('=== Initializing Website ===');
+    console.log('GSAP available?', typeof gsap !== 'undefined');
+    console.log('ScrollTrigger available?', typeof ScrollTrigger !== 'undefined');
+    console.log('Lenis available?', typeof Lenis !== 'undefined');
+    console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
+
+    // Initialize all features
+    const lenis = initLenis();
+
+    // Delay ScrollTrigger init slightly to ensure GSAP is ready
+    setTimeout(() => {
+        initScrollTriggers();
+        initParallax();
+    }, 100);
+
+    initReveal();
+    initTilt();
+    initMagnetic();
+    initCursor();
+    initNav();
+    initKeyboardNav();
+    initPolish();
+
+    // Display developer panel
+    setTimeout(() => {
+        devPanel.display();
+    }, 200);
+
+    // Ensure body is visible
+    document.body.style.opacity = '1';
+}
+
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+} else {
+    initAll();
+}
+
+// HOW TO TOGGLE FEATURES:
+// To disable any feature, comment out its init call in initAll()
+// Example: // initCursor(); will disable the custom cursor

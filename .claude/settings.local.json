@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.zaheensandhu.com)"
+      "WebFetch(domain:www.zaheensandhu.com)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
