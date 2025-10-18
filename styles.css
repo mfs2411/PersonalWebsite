@@ -91,6 +91,7 @@ h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
 p {
     margin-bottom: 1rem;
     color: var(--text-secondary);
+    text-align: justify;
 }
 
 a {
@@ -544,11 +545,13 @@ ul {
     cursor: pointer;
     border: 2px solid transparent;
     position: relative;
+    max-width: 300px;
 }
 
 .btn-large {
     padding: 1.5rem 3.5rem;
     font-size: 1.25rem;
+    max-width: 350px;
 }
 
 .btn-primary {
@@ -764,6 +767,7 @@ ul {
     margin-bottom: 0.75rem;
     color: var(--text-secondary);
     line-height: 1.7;
+    text-align: justify;
 }
 
 .timeline-list li::before {
@@ -891,6 +895,7 @@ ul {
     font-size: 0.95rem;
     color: var(--text-secondary);
     margin-bottom: 0.75rem;
+    text-align: center;
 }
 
 .cert-date {
@@ -979,6 +984,7 @@ ul {
     font-size: 0.875rem;
     color: var(--text-muted);
     margin-top: 0.25rem;
+    text-align: center;
 }
 
 .badge-list {
@@ -1685,6 +1691,7 @@ section:not(.section-revealed) {
     color: var(--text-primary);
     transition: var(--transition);
     min-width: 350px;
+    max-width: 400px;
     justify-content: center;
 }
 
@@ -2051,7 +2058,7 @@ body.keyboard-navigation *:focus {
     .nav-menu {
         position: fixed;
         top: 70px;
-        left: -100%;
+        right: -100%;
         width: 100%;
         height: calc(100vh - 70px);
         background: var(--bg-secondary);
@@ -2059,12 +2066,12 @@ body.keyboard-navigation *:focus {
         justify-content: flex-start;
         padding: 3rem 2rem;
         box-shadow: var(--shadow-lg);
-        transition: left 0.3s ease;
-        border-right: 1px solid var(--border-color);
+        transition: right 0.3s ease;
+        border-left: 1px solid var(--border-color);
     }
 
     .nav-menu.active {
-        left: 0;
+        right: 0;
     }
 
     .nav-toggle {
