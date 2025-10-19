@@ -626,7 +626,74 @@ function initKeyboardNav() {
 }
 
 // ===========================
-// 10. ADDITIONAL POLISH
+// 10. CASE STUDY TABS
+// ===========================
+
+function initCaseTabs() {
+    const tabButtons = document.querySelectorAll('.case-tab');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    if (tabButtons.length === 0 || tabPanels.length === 0) {
+        console.warn('Case tabs not found');
+        return;
+    }
+
+    function switchTab(targetIndex) {
+        // Remove active from all
+        tabButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        });
+        tabPanels.forEach(panel => {
+            panel.classList.remove('active');
+        });
+
+        // Add active to target
+        if (tabButtons[targetIndex]) {
+            tabButtons[targetIndex].classList.add('active');
+            tabButtons[targetIndex].setAttribute('aria-selected', 'true');
+        }
+        if (tabPanels[targetIndex]) {
+            tabPanels[targetIndex].classList.add('active');
+        }
+    }
+
+    // Click handler
+    tabButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            switchTab(index);
+        });
+
+        // Keyboard navigation (Left/Right arrows)
+        button.addEventListener('keydown', (e) => {
+            let newIndex = index;
+
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                newIndex = (index + 1) % tabButtons.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                newIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                newIndex = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                newIndex = tabButtons.length - 1;
+            } else {
+                return; // Exit if not arrow key
+            }
+
+            switchTab(newIndex);
+            tabButtons[newIndex].focus();
+        });
+    });
+
+    devPanel.log('Case Study Tabs (Keyboard + Click)');
+}
+
+// ===========================
+// 11. ADDITIONAL POLISH
 // ===========================
 
 function initPolish() {
@@ -701,7 +768,14 @@ function initAll() {
     console.log('GSAP available?', typeof gsap !== 'undefined');
     console.log('ScrollTrigger available?', typeof ScrollTrigger !== 'undefined');
     console.log('Lenis available?', typeof Lenis !== 'undefined');
+    console.log('Lucide available?', typeof lucide !== 'undefined');
     console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
+
+    // Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+        devPanel.log('Lucide Icons Rendered');
+    }
 
     // Initialize all features
     const lenis = initLenis();
@@ -718,6 +792,7 @@ function initAll() {
     initCursor();
     initNav();
     initKeyboardNav();
+    initCaseTabs();
     initPolish();
 
     // Display developer panel
@@ -736,6 +811,13 @@ if (document.readyState === 'loading') {
     initAll();
 }
 
-// HOW TO TOGGLE FEATURES:
+// ===========================
+// HOW TO TOGGLE FEATURES
+// ===========================
 // To disable any feature, comment out its init call in initAll()
-// Example: // initCursor(); will disable the custom cursor
+//
+// Examples:
+// - Disable custom cursor: // initCursor();
+// - Disable magnetic buttons: // initMagnetic();
+// - Disable case study tabs: // initCaseTabs();
+// - Disable smooth scroll: // const lenis = initLenis();

@@ -1,5 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+=================================================================
+USAGE DOCUMENTATION - Miriam Fahim Portfolio
+=================================================================
+
+1. CHANGING LUCIDE ICONS:
+   - Find the icon you want to replace (e.g., <i data-lucide="rocket"></i>)
+   - Change the data-lucide attribute to any Lucide icon name
+   - Icon library: https://lucide.dev/icons/
+   - Example: <i data-lucide="star"></i> or <i data-lucide="heart"></i>
+
+2. EDITING TABBED CASE-STUDY SECTION:
+   Location: Lines 71-162 (Case Study Deck section)
+
+   A) To change tab titles:
+      - Edit the <button> text inside .case-tab elements (lines 80-95)
+      - Also update data-tab-title attribute to match
+
+   B) To change tab content:
+      - Edit content within each .tab-panel div (lines 101-158)
+      - Each panel has:
+        * Title (data-editable="tab-X-title")
+        * 2-3 bullet points (data-editable="tab-X-point-1/2/3")
+        * KPI chips (data-editable="tab-X-kpis")
+
+   C) To add/remove bullets:
+      - Copy/paste an existing <li> element
+      - Update the data-editable attribute
+
+   D) To add/remove KPI chips:
+      - Copy/paste a <span class="kpi-chip"> element
+      - Change the text inside
+
+3. DISABLING FEATURES (in script.js):
+   - To disable custom cursor: Comment out // initCursor();
+   - To disable magnetic buttons: Comment out // initMagnetic();
+   - To disable case study tabs: Comment out // initCaseTabs();
+   - Find these in the initAll() function around line 795
+
+4. COLOR PALETTE:
+   All colors are defined in styles.css :root section
+   - --ink: #373F47 (body text)
+   - --ink-2: #8B8982 (secondary text)
+   - --bg: #C3C9E9 (backgrounds)
+   - --brand: #6C91C2 (accents/brand)
+   - --line: #AAABBC (borders)
+
+=================================================================
+-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +104,7 @@
                     <span class="name">Miriam Fahim</span>
                 </h1>
                 <p class="hero-subtitle" data-editable="hero-subtitle">R&D Product Owner | Digital Assets & Innovation</p>
-                <p class="hero-location" data-editable="hero-location">📍 London, UK</p>
+                <p class="hero-location" data-editable="hero-location"><i data-lucide="map-pin" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i>London, UK</p>
                 <div class="hero-cta">
                     <a href="#contact" class="btn btn-primary btn-magnet" data-editable="cta-primary">Get in Touch</a>
                     <a href="#experience" class="btn btn-secondary btn-magnet" data-editable="cta-secondary">View My Work</a>
@@ -68,48 +117,93 @@
         </div>
     </section>
 
-    <!-- CHAPTER 2: Features Storytelling (Pinned Section) -->
-    <section id="features-story" class="features-chapter chapter" data-chapter="2">
+    <!-- CHAPTER 2: Case Study Deck (Tabbed Section) -->
+    <!-- EDITING: To change tab titles/content, edit data-tab-title and the content within each .tab-panel -->
+    <section id="features-story" class="case-tabs-section chapter reveal" data-chapter="2">
         <div class="container">
-            <div class="features-pin-wrapper">
-                <!-- Left: Step Text -->
-                <div class="features-text">
-                    <div class="feature-step" data-step="1">
-                        <h2 class="feature-title" data-editable="feature-1-title">Product Innovation</h2>
-                        <p class="feature-desc" data-editable="feature-1-desc">
-                            Leading R&D initiatives in blockchain, digital identity, and AI-driven automation.
-                            Translating complex technical challenges into elegant product solutions.
-                        </p>
-                    </div>
-                    <div class="feature-step" data-step="2">
-                        <h2 class="feature-title" data-editable="feature-2-title">Strategic Delivery</h2>
-                        <p class="feature-desc" data-editable="feature-2-desc">
-                            Defining and executing cross-functional product strategy in Agile environments.
-                            Ensuring R&D roadmap aligns with digital asset strategy and regulatory demands.
-                        </p>
-                    </div>
-                    <div class="feature-step" data-step="3">
-                        <h2 class="feature-title" data-editable="feature-3-title">Recognized Excellence</h2>
-                        <p class="feature-desc" data-editable="feature-3-desc">
-                            Computing Rising Stars 30 (2023). Championing innovation across engineering,
-                            business leadership, and strategic partnerships.
-                        </p>
-                    </div>
+            <h2 class="section-title">Strategic Product Leadership</h2>
+
+            <div class="case-tabs-wrapper">
+                <!-- Tab Buttons (Desktop: Vertical | Mobile: Horizontal) -->
+                <div class="case-tabs-nav" role="tablist">
+                    <button class="case-tab active" role="tab" aria-selected="true" aria-controls="tab-panel-1" data-tab="1" data-tab-title="Product Innovation">
+                        <i data-lucide="rocket" style="width: 20px; height: 20px;"></i>
+                        <span>Product Innovation</span>
+                    </button>
+                    <button class="case-tab" role="tab" aria-selected="false" aria-controls="tab-panel-2" data-tab="2" data-tab-title="Strategic Delivery">
+                        <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                        <span>Strategic Delivery</span>
+                    </button>
+                    <button class="case-tab" role="tab" aria-selected="false" aria-controls="tab-panel-3" data-tab="3" data-tab-title="Experimentation">
+                        <i data-lucide="flask-conical" style="width: 20px; height: 20px;"></i>
+                        <span>Experimentation</span>
+                    </button>
+                    <button class="case-tab" role="tab" aria-selected="false" aria-controls="tab-panel-4" data-tab="4" data-tab-title="Outcomes">
+                        <i data-lucide="trophy" style="width: 20px; height: 20px;"></i>
+                        <span>Outcomes</span>
+                    </button>
                 </div>
 
-                <!-- Right: Product Visual (morphs with scroll) -->
-                <div class="features-visual">
-                    <div class="visual-container" data-visual="1">
-                        <div class="visual-icon">🚀</div>
-                        <div class="visual-bg"></div>
+                <!-- Tab Panels (Content Area) -->
+                <div class="case-tabs-content">
+                    <!-- Panel 1: Product Innovation -->
+                    <div class="tab-panel active" id="tab-panel-1" role="tabpanel" data-panel="1">
+                        <h3 class="tab-panel-title" data-editable="tab-1-title">Product Innovation</h3>
+                        <ul class="tab-panel-list">
+                            <li data-editable="tab-1-point-1"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Leading R&D initiatives in blockchain, digital identity, and AI-driven automation</li>
+                            <li data-editable="tab-1-point-2"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Translating complex technical challenges into elegant product solutions</li>
+                            <li data-editable="tab-1-point-3"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Championing emerging technologies for digital market infrastructure</li>
+                        </ul>
+                        <div class="kpi-chips" data-editable="tab-1-kpis">
+                            <span class="kpi-chip">Blockchain</span>
+                            <span class="kpi-chip">Digital Identity</span>
+                            <span class="kpi-chip">AI Automation</span>
+                        </div>
                     </div>
-                    <div class="visual-container" data-visual="2">
-                        <div class="visual-icon">🎯</div>
-                        <div class="visual-bg"></div>
+
+                    <!-- Panel 2: Strategic Delivery -->
+                    <div class="tab-panel" id="tab-panel-2" role="tabpanel" data-panel="2">
+                        <h3 class="tab-panel-title" data-editable="tab-2-title">Strategic Delivery</h3>
+                        <ul class="tab-panel-list">
+                            <li data-editable="tab-2-point-1"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Defining and executing cross-functional product strategy in Agile environments</li>
+                            <li data-editable="tab-2-point-2"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Ensuring R&D roadmap aligns with digital asset strategy</li>
+                            <li data-editable="tab-2-point-3"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Partnering with engineering and business leaders for key partnerships</li>
+                        </ul>
+                        <div class="kpi-chips" data-editable="tab-2-kpis">
+                            <span class="kpi-chip">Cross-Functional</span>
+                            <span class="kpi-chip">Agile</span>
+                            <span class="kpi-chip">Regulatory</span>
+                        </div>
                     </div>
-                    <div class="visual-container" data-visual="3">
-                        <div class="visual-icon">🏆</div>
-                        <div class="visual-bg"></div>
+
+                    <!-- Panel 3: Experimentation -->
+                    <div class="tab-panel" id="tab-panel-3" role="tabpanel" data-panel="3">
+                        <h3 class="tab-panel-title" data-editable="tab-3-title">Rapid Experimentation</h3>
+                        <ul class="tab-panel-list">
+                            <li data-editable="tab-3-point-1"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Supporting 2-4 week PoC cycles for digital asset solutions</li>
+                            <li data-editable="tab-3-point-2"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Establishing repeatable innovation frameworks for early-stage development</li>
+                            <li data-editable="tab-3-point-3"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Applying analytical rigor to validate solutions and inform investment decisions</li>
+                        </ul>
+                        <div class="kpi-chips" data-editable="tab-3-kpis">
+                            <span class="kpi-chip">2-4 Week Cycles</span>
+                            <span class="kpi-chip">Innovation Framework</span>
+                            <span class="kpi-chip">Data-Driven</span>
+                        </div>
+                    </div>
+
+                    <!-- Panel 4: Outcomes -->
+                    <div class="tab-panel" id="tab-panel-4" role="tabpanel" data-panel="4">
+                        <h3 class="tab-panel-title" data-editable="tab-4-title">Recognized Excellence</h3>
+                        <ul class="tab-panel-list">
+                            <li data-editable="tab-4-point-1"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Computing Rising Stars 30 (2023)</li>
+                            <li data-editable="tab-4-point-2"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Championing innovation across engineering and business leadership</li>
+                            <li data-editable="tab-4-point-3"><i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>Delivering key strategic partnerships in digital asset ecosystem</li>
+                        </ul>
+                        <div class="kpi-chips" data-editable="tab-4-kpis">
+                            <span class="kpi-chip">Rising Star 2023</span>
+                            <span class="kpi-chip">Strategic Partnerships</span>
+                            <span class="kpi-chip">Innovation Leader</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -243,13 +337,13 @@
             <h2 class="section-title">Education & Achievements</h2>
             <div class="education-grid">
                 <div class="education-card featured">
-                    <div class="education-icon">🎓</div>
+                    <div class="education-icon"><i data-lucide="graduation-cap" style="width: 48px; height: 48px;"></i></div>
                     <h3>MSc Engineering with Innovation and Entrepreneurship</h3>
                     <p class="education-institution">University College London (UCL)</p>
                     <p class="education-grade">Distinction</p>
                 </div>
                 <div class="education-card featured">
-                    <div class="education-icon">🎓</div>
+                    <div class="education-icon"><i data-lucide="graduation-cap" style="width: 48px; height: 48px;"></i></div>
                     <h3>BEng Civil Engineering with Management</h3>
                     <p class="education-institution">University College London (UCL)</p>
                     <p class="education-grade">First Class Honours</p>
@@ -259,25 +353,25 @@
             <h3 class="subsection-title">Certifications & Recognition</h3>
             <div class="certifications-grid">
                 <div class="cert-card">
-                    <div class="cert-badge">⭐</div>
+                    <div class="cert-badge"><i data-lucide="award" style="width: 40px; height: 40px;"></i></div>
                     <h4>Computing Rising Stars 30</h4>
                     <p>UK's most promising young tech professionals</p>
                     <span class="cert-date">2023</span>
                 </div>
                 <div class="cert-card">
-                    <div class="cert-badge">🤖</div>
+                    <div class="cert-badge"><i data-lucide="cpu" style="width: 40px; height: 40px;"></i></div>
                     <h4>Artificial Intelligence</h4>
                     <p>BrainStation</p>
                     <span class="cert-date">Nov 2023</span>
                 </div>
                 <div class="cert-card">
-                    <div class="cert-badge">☁️</div>
+                    <div class="cert-badge"><i data-lucide="cloud" style="width: 40px; height: 40px;"></i></div>
                     <h4>AZ-900 Azure Fundamentals</h4>
                     <p>Microsoft</p>
                     <span class="cert-date">Oct 2023</span>
                 </div>
                 <div class="cert-card">
-                    <div class="cert-badge">🔒</div>
+                    <div class="cert-badge"><i data-lucide="shield-check" style="width: 40px; height: 40px;"></i></div>
                     <h4>CSSLP Certification</h4>
                     <p>Certified Secure Software Lifecycle Professional - ISC²</p>
                     <span class="cert-date">Sep 2023</span>
@@ -341,19 +435,19 @@
             <h3 class="subsection-title">Professional Networks</h3>
             <div class="networks-grid">
                 <div class="network-badge">
-                    <div class="network-icon">👩‍💻</div>
+                    <div class="network-icon"><i data-lucide="users" style="width: 32px; height: 32px;"></i></div>
                     <h4>LSEG Women in Technology</h4>
                 </div>
                 <div class="network-badge">
-                    <div class="network-icon">💼</div>
+                    <div class="network-icon"><i data-lucide="briefcase" style="width: 32px; height: 32px;"></i></div>
                     <h4>Women in Banking and Finance</h4>
                 </div>
                 <div class="network-badge">
-                    <div class="network-icon">🤝</div>
+                    <div class="network-icon"><i data-lucide="handshake" style="width: 32px; height: 32px;"></i></div>
                     <h4>Cajigo Mentoring Programme</h4>
                 </div>
                 <div class="network-badge">
-                    <div class="network-icon">✝️</div>
+                    <div class="network-icon"><i data-lucide="heart" style="width: 32px; height: 32px;"></i></div>
                     <h4>LSEG Christian Network</h4>
                 </div>
             </div>
@@ -399,11 +493,11 @@
                 </div>
                 <div class="contact-info">
                     <a href="mailto:miriamfahim@hotmail.com" class="contact-button">
-                        <span class="contact-icon">✉️</span>
+                        <span class="contact-icon"><i data-lucide="mail" style="width: 24px; height: 24px;"></i></span>
                         <span>miriamfahim@hotmail.com</span>
                     </a>
                     <a href="https://www.linkedin.com/in/miriam-f-785975105/" target="_blank" rel="noopener noreferrer" class="contact-button">
-                        <span class="contact-icon">💼</span>
+                        <span class="contact-icon"><i data-lucide="external-link" style="width: 24px; height: 24px;"></i></span>
                         <span>LinkedIn Profile</span>
                     </a>
                 </div>
@@ -422,6 +516,9 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Custom Scripts -->
     <script src="script.js"></script>
